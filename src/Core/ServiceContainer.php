@@ -4,11 +4,14 @@ declare(strict_types=1);
 namespace App\Core;
 
 use App\Controller\IndexController;
+use App\Controller\UserController;
 use App\Repository\CommentsRepository;
 use App\Repository\PostsRepository;
+use App\Repository\UserRepository;
 use App\Service\CommentsService;
 use App\Service\PostsService;
 use App\Repository\Repository;
+use App\Service\UserService;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 final class ServiceContainer
@@ -53,6 +56,14 @@ final class ServiceContainer
             ->setArgument('postsService', $this->builder->get(PostsService::class))
             ->setArgument('commentsService', $this->builder->get(CommentsService::class));
 
+        $this->builder->register(UserRepository::class, UserRepository::class)
+            ->setArgument('repository', $this->builder->get(Repository::class));
+
+        $this->builder->register(UserService::class, UserService::class)
+            ->setArgument('usersRepository', $this->builder->get(UserRepository::class));
+
+        $this->builder->register(UserController::class, UserController::class)
+            ->setArgument('userService', $this->builder->get(UserService::class));
     }
 
     public function get(string $id): ?object
