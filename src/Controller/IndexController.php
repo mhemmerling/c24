@@ -42,10 +42,13 @@ final class IndexController extends Controller
                 'comments' => $comments,
             ]);
         } catch (Throwable $throwable) {
-            //@todo notfoundexception
+            throw new ResourceNotFoundException();
         }
     }
 
+    /**
+     * @throws ResourceNotFoundException
+     */
     public function addCommentAction(string $slug): Response
     {
         try {
@@ -60,7 +63,7 @@ final class IndexController extends Controller
                 )
             );
         } catch (Throwable $throwable) {
-            //@todo notfoundexception
+            throw new ResourceNotFoundException();
         }
 
         return new RedirectResponse('/post/' . $slug);

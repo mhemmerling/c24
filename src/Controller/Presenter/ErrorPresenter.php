@@ -18,6 +18,8 @@ final class ErrorPresenter implements Response
 
     public function view(): string
     {
+        http_response_code($this->code);
+
         return '<!DOCTYPE html>
             <html lang="en">
             <meta charset="UTF-8">

@@ -4,7 +4,9 @@ declare(strict_types=1);
 namespace App\Core;
 
 use App\Controller\ErrorController;
+use App\Controller\ResourceNotFoundException;
 use App\Controller\Response;
+use Throwable;
 
 /**
  * I didn't use library to develop anything myself :)
@@ -31,6 +33,18 @@ final class Router
             'action' => 'addCommentAction',
             'httpMethods' => ['POST']
         ],
+        [
+            'path' => '/login',
+            'controller' => \App\Controller\UserController::class,
+            'action' => 'loginFormAction',
+            'httpMethods' => ['GET']
+        ],
+        [
+            'path' => '/login',
+            'controller' => \App\Controller\UserController::class,
+            'action' => 'authorizeAction',
+            'httpMethods' => ['POST']
+        ],
     ];
 
     private ServiceContainer $container;
@@ -44,6 +58,11 @@ final class Router
         $this->httpMethod = $httpMethod;
     }
 
+    /**
+     * @throws ResourceNotFoundException
+     * @throws Throwable
+     * @return Response
+     */
     public function getAction(): Response
     {
         foreach (self::ROUTES as $route) {
