@@ -15,4 +15,9 @@ class Repository
         $this->db = DriverManager::getConnection($dbCredentials);
     }
 
+    public function getDb(): Connection
+    {
+        return $this->db;
+    }
+
 }

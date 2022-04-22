@@ -10,6 +10,8 @@ use Throwable;
 
 final class IndexController extends Controller
 {
+    private const POSTS_PER_PAGE = 10;
+
     private PostsService $postsService;
 
     public function __construct(PostsService $postsService)
@@ -19,8 +21,9 @@ final class IndexController extends Controller
 
     public function homeAction(): Response
     {
+        $page = 1; //@TODO with param
         return new IndexHomePresenter([
-            'posts' => []
+            'posts' => $this->postsService->getLatestPosts($page, self::POSTS_PER_PAGE)
         ]);
     }
 

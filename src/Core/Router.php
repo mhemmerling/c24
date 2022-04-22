@@ -21,10 +21,12 @@ final class Router
         ],
     ];
 
+    private ServiceContainer $container;
     private string $uriPath;
 
-    public function __construct(string $uriPath)
+    public function __construct(string $uriPath, ServiceContainer $container)
     {
+        $this->container = $container;
         $this->uriPath = $uriPath;
     }
 
@@ -33,7 +35,7 @@ final class Router
         foreach (self::ROUTES as $route) {
             if (preg_match('%^' . $route['path'] . '$%i', rtrim($this->uriPath))) {
                 //@todo pass arguments like slug etc.
-                return (new $route['controller'])->{$route['action']}();
+                return ($this->container->get($route['controller']))->{$route['action']}();
             }
         }
 

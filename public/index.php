@@ -6,21 +6,14 @@ include '../vendor/autoload.php';
 use App\Controller\Presenter\ErrorPresenter;
 use App\Core\Router;
 use App\Core\ServiceContainer;
-use App\Repository\PostsRepository;
-use App\Repository\Repository;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 
 $container = new ServiceContainer(new ContainerBuilder());
 $container->register();
-$container->get(\App\Controller\IndexController::class);
 
-
-
-
-die;
 try {
-    $router = new Router($_SERVER['REQUEST_URI']);
+    $router = new Router($_SERVER['REQUEST_URI'], $container);
     echo $router->getAction()->view();
 } catch (Throwable $throwable) {
     //logger

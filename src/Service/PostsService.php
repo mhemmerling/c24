@@ -14,6 +14,12 @@ final class PostsService
         $this->postsRepository = $postsRepository;
     }
 
+    public function getLatestPosts(int $page, int $perPage): array
+    {
+        $offset = $page * $perPage - $perPage;
+        return $this->postsRepository->getPosts($perPage, $offset, 'created_at', 'desc');
+    }
+
     public function getPostBySlug(string $slug): array
     {
         return $this->postsRepository->getPostBySlug($slug);
