@@ -6,5 +6,86 @@
         <h1>{{ post.getTitle() }}</h1>
         <img src="/assets/images/placeholder.jpeg" alt="{{ post.getTitle() }}" style="width: 100%;margin-bottom: 30px;">
         {{ post.getContent() }}
+
+        {% if comments is not empty %}
+            <br/>
+            <br/>
+            <br/>
+            {% for comment in comments %}
+                <div class="card">
+                    <div class="card-header">
+                        {% if comment.getEmail() is empty %}
+                            {{ comment.getName() }}
+                        {% else %}
+                            <a href="mailto:{{ comment.getemail() }}">{{ comment.getName() }}</a>
+                        {% endif %}
+                        - {{ comment.getCreatedAt() }}
+                    </div>
+                    <div class="card-body">
+                        {{ comment.getContent() }}
+                    </div>
+                    {#            <div class="card-footer">#}
+                    {#                <a href="comment/delete/{{ comment.getId() }}">[x]</a>#}
+                    {#            </div>#}
+                </div>
+                <br/>
+            {% endfor %}
+        {% endif %}
+
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+
+
+        <form method="post" action="/post/{{ post.getSlug() }}/comment">
+
+            <div class="form-group row">
+                <label for="name" class="col-sm-2 col-form-label">Name<sup>*</sup>:</label>
+                <div class="col-sm-10">
+                    <input required type="text" class="form-control" id="name" name="name" placeholder="Max Mustermann">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="email" class="col-sm-2 col-form-label">Mail:</label>
+                <div class="col-sm-10">
+                    <input type="email" class="form-control" id="email" name="email" placeholder="mail@example.de">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="url" class="col-sm-2 col-form-label">URL:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="url" id="url" placeholder="https://example.de">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="content" class="col-sm-2 col-form-label">Kommentar<sup>*</sup>:</label>
+                <div class="col-sm-10">
+                    <textarea required class="form-control" name="content" id="content"></textarea>
+                </div>
+            </div>
+            <div class="form-group row">
+                <button type="submit" class="btn btn-primary mb-2">Absenden</button>
+            </div>
+
+
+
+
+
+
+        </form>
+
+
+
+
+
+
     </div>
+
+
+
+
+
+
+
 {% endblock %}

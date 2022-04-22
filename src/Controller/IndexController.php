@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Command\AddCommentCommand;
 use App\Controller\Presenter\IndexHomePresenter;
 use App\Controller\Presenter\PostPresenter;
 use App\Service\CommentsService;
@@ -43,5 +44,25 @@ final class IndexController extends Controller
         } catch (Throwable $throwable) {
             //@todo notfoundexception
         }
+    }
+
+    public function addCommentAction(string $slug): Response
+    {
+        try {
+            $post = $this->postsService->getPostBySlug($slug);
+            $this->commentsService->addComment(
+                new AddCommentCommand(
+                    $post->getId(),
+                    $_POST['name'],
+                    $_POST['email'],
+                    $_POST['url'],
+                    $_POST['content']
+                )
+            );
+        } catch (Throwable $throwable) {
+            //@todo notfoundexception
+        }
+
+        return new RedirectResponse('/post/' . $slug);
     }
 }

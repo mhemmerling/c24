@@ -13,7 +13,7 @@ $container = new ServiceContainer(new ContainerBuilder());
 $container->register();
 
 try {
-    $router = new Router($_SERVER['REQUEST_URI'], $container);
+    $router = new Router($_SERVER['REQUEST_URI'], $container, $_SERVER['REQUEST_METHOD']);
     echo $router->getAction()->view();
 } catch (Throwable $throwable) {
     //logger

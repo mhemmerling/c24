@@ -25,21 +25,29 @@ final class Router
             'action' => 'singleAction',
             'httpMethods' => ['GET']
         ],
+        [
+            'path' => '/post/([A-Za-z0-9-_]+)/comment',
+            'controller' => \App\Controller\IndexController::class,
+            'action' => 'addCommentAction',
+            'httpMethods' => ['POST']
+        ],
     ];
 
     private ServiceContainer $container;
     private string $uriPath;
+    private string $httpMethod;
 
-    public function __construct(string $uriPath, ServiceContainer $container)
+    public function __construct(string $uriPath, ServiceContainer $container, string $httpMethod)
     {
         $this->container = $container;
         $this->uriPath = $uriPath;
+        $this->httpMethod = $httpMethod;
     }
 
     public function getAction(): Response
     {
         foreach (self::ROUTES as $route) {
-            if (preg_match('%^' . $route['path'] . '$%i', rtrim($this->uriPath), $args, PREG_UNMATCHED_AS_NULL)) {
+            if (preg_match('%^' . $route['path'] . '$%i', rtrim($this->uriPath), $args, PREG_UNMATCHED_AS_NULL) && in_array($this->httpMethod, $route['httpMethods'])) {
                 $args = isset($args[1]) ? [$args[1]] : [];
                 return ($this->container->get($route['controller']))
                     ->{$route['action']}(...$args);
