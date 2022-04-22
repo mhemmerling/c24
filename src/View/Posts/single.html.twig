@@ -1,0 +1,10 @@
+{% extends "base.html.twig" %}
+
+{% block content %}
+    <div class="container">
+        <div>{{ post.getCreatedAt() }}</div>
+        <h1>{{ post.getTitle() }}</h1>
+        <img src="/assets/images/placeholder.jpeg" alt="{{ post.getTitle() }}" style="width: 100%;margin-bottom: 30px;">
+        {{ post.getContent() }}
+    </div>
+{% endblock %}

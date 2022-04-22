@@ -63,4 +63,14 @@ final class Post
     {
         return $this->createdAt;
     }
+
+    public function getAuthorName(): string
+    {
+        return $this->authorName;
+    }
+
+    public function getCommentsCount(): int
+    {
+        return $this->commentsCount;
+    }
 }

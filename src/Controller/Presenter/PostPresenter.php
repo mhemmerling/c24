@@ -5,7 +5,7 @@ namespace App\Controller\Presenter;
 
 use App\Controller\Response;
 
-final class PostPresenter implements Response
+final class PostPresenter extends Twig implements Response
 {
     private array $viewData;
 
@@ -16,6 +16,6 @@ final class PostPresenter implements Response
 
     public function view(): string
     {
-        return 'Post parsed html file, twig maybe';
+        return $this->getTwig()->render('Posts/single.html.twig', $this->viewData);
     }
 }

@@ -5,17 +5,17 @@ namespace App\Controller\Presenter;
 
 use App\Controller\Response;
 
-final class IndexHomePresenter implements Response
+final class IndexHomePresenter extends Twig implements Response
 {
     private array $viewData;
 
-    public function __construct($viewData)
+    public function __construct(array $viewData)
     {
         $this->viewData = $viewData;
     }
 
     public function view(): string
     {
-        return 'Home parsed html file, twig maybe';
+        return $this->getTwig()->render('Posts/list.html.twig', $this->viewData);
     }
 }

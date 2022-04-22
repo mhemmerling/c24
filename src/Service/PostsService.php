@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Repository\Post;
 use App\Repository\PostsRepository;
 
 final class PostsService
@@ -20,7 +21,7 @@ final class PostsService
         return $this->postsRepository->getPosts($perPage, $offset, 'created_at', 'desc');
     }
 
-    public function getPostBySlug(string $slug): array
+    public function getPostBySlug(string $slug): Post
     {
         return $this->postsRepository->getPostBySlug($slug);
     }

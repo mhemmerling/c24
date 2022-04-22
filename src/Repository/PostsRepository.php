@@ -37,18 +37,20 @@ final class PostsRepository
         return $posts;
     }
 
-    public function getPostBySlug(string $slug): array
+    public function getPostBySlug(string $slug): Post
     {
         $post = $this->repository->getDb()
             ->createQueryBuilder()
-            ->select('*')
-            ->from(self::POSTS_TABLE)
+            ->select('p.*', 'count(c.id) as comments_count')
+            ->from(self::POSTS_TABLE, 'p')
             ->where('slug = ?')
             ->setParameter(0, $slug)
+            ->leftJoin('p', self::COMMENTS_TABLE, 'c', 'p.id = c.post_id')
+            ->groupBy('p.id')
             ->executeQuery()
-            ->fetchOne();
+            ->fetchAssociative();
 
-        return $post;
+        return PostFactory::createFromDB($post);
 
         //@todo throw not found
     }

@@ -1,0 +1,19 @@
+{% extends "base.html.twig" %}
+
+{% block content %}
+    <div class="container">
+        {% for post in posts %}
+            <div class="card">
+                <a href="/post/{{ post.getSlug() }}" class="card-body">
+                    <img src="/assets/images/placeholder.jpeg" alt="{{ post.getTitle() }}"  class="img-thumbnail float-right">
+                    <h5 class="card-title">{{ post.getCreatedAt() }} - {{ post.getTitle() }}</h5>
+                    <p class="card-text">{{ post.getContent()|u.truncate(1000, '...') }}</p>
+                </a>
+                <div class="card-footer">
+                    <div class="float-right"><a href="/post/{{ post.getSlug() }}" rel="nofollow">Comments: {{ post.getCommentsCount() }}</a></div>
+                    Author: {{ post.getAuthorName() }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

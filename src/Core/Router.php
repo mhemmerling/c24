@@ -19,6 +19,12 @@ final class Router
             'action' => 'homeAction',
             'httpMethods' => ['GET']
         ],
+        [
+            'path' => '/post/([A-Za-z0-9-_]+)',
+            'controller' => \App\Controller\IndexController::class,
+            'action' => 'singleAction',
+            'httpMethods' => ['GET']
+        ],
     ];
 
     private ServiceContainer $container;
@@ -33,9 +39,10 @@ final class Router
     public function getAction(): Response
     {
         foreach (self::ROUTES as $route) {
-            if (preg_match('%^' . $route['path'] . '$%i', rtrim($this->uriPath))) {
-                //@todo pass arguments like slug etc.
-                return ($this->container->get($route['controller']))->{$route['action']}();
+            if (preg_match('%^' . $route['path'] . '$%i', rtrim($this->uriPath), $args, PREG_UNMATCHED_AS_NULL)) {
+                $args = isset($args[1]) ? [$args[1]] : [];
+                return ($this->container->get($route['controller']))
+                    ->{$route['action']}(...$args);
             }
         }
 

@@ -5,18 +5,21 @@ namespace App\Controller;
 
 use App\Controller\Presenter\IndexHomePresenter;
 use App\Controller\Presenter\PostPresenter;
+use App\Service\CommentsService;
 use App\Service\PostsService;
 use Throwable;
 
 final class IndexController extends Controller
 {
-    private const POSTS_PER_PAGE = 10;
+    private const POSTS_PER_PAGE = 3;
 
     private PostsService $postsService;
+    private CommentsService $commentsService;
 
-    public function __construct(PostsService $postsService)
+    public function __construct(PostsService $postsService, CommentsService $commentsService)
     {
         $this->postsService = $postsService;
+        $this->commentsService = $commentsService;
     }
 
     public function homeAction(): Response
@@ -31,12 +34,14 @@ final class IndexController extends Controller
     {
         try {
             $post = $this->postsService->getPostBySlug($slug);
+            $comments = $this->commentsService->getPostComments($post->getId());
+
+            return new PostPresenter([
+                'post' => $post,
+                'comments' => $comments,
+            ]);
         } catch (Throwable $throwable) {
             //@todo notfoundexception
         }
-
-        return new PostPresenter([
-            'post' => []
-        ]);
     }
 }

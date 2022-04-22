@@ -4,7 +4,9 @@ declare(strict_types=1);
 namespace App\Core;
 
 use App\Controller\IndexController;
+use App\Repository\CommentsRepository;
 use App\Repository\PostsRepository;
+use App\Service\CommentsService;
 use App\Service\PostsService;
 use App\Repository\Repository;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -41,8 +43,15 @@ final class ServiceContainer
         $this->builder->register(PostsService::class, PostsService::class)
             ->setArgument('postsRepository', $this->builder->get(PostsRepository::class));
 
+        $this->builder->register(CommentsRepository::class, CommentsRepository::class)
+            ->setArgument('repository', $this->builder->get(Repository::class));
+
+        $this->builder->register(CommentsService::class, CommentsService::class)
+            ->setArgument('commentsRepository', $this->builder->get(CommentsRepository::class));
+
         $this->builder->register(IndexController::class, IndexController::class)
-            ->setArgument('postsService', $this->builder->get(PostsService::class));
+            ->setArgument('postsService', $this->builder->get(PostsService::class))
+            ->setArgument('commentsService', $this->builder->get(CommentsService::class));
 
     }
 

@@ -17,6 +17,8 @@
     ],
     "require": {
         "doctrine/dbal": "^3.3",
-        "symfony/dependency-injection": "^5.4"
+        "symfony/dependency-injection": "^5.4",
+        "twig/twig": "^3.3",
+        "twig/string-extra": "^3.3"
     }
 }
