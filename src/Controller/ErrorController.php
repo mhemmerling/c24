@@ -5,7 +5,7 @@ namespace App\Controller;
 
 use App\Controller\Presenter\ErrorPresenter;
 
-final class ErrorController
+final class ErrorController extends Controller
 {
     public function NotFoundAction(): Response
     {

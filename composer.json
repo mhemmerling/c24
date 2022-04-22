@@ -15,5 +15,8 @@
             "email": "marcin@hemmerling.eu"
         }
     ],
-    "require": {}
+    "require": {
+        "doctrine/dbal": "^3.3",
+        "symfony/dependency-injection": "^5.4"
+    }
 }

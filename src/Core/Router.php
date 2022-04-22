@@ -16,7 +16,7 @@ final class Router
         [
             'path' => '/',
             'controller' => \App\Controller\IndexController::class,
-            'action' => 'home',
+            'action' => 'homeAction',
             'httpMethods' => ['GET']
         ],
     ];
